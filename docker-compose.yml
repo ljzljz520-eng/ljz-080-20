@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # 1. Database Service (Supabase Postgres)
+  db:
+    image: supabase/postgres:15.1.1.78
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Backend Service (NestJS)
+  backend:
+    build: ./apps/server
+    ports:
+      - "8000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/postgres
+      # Supabase config placeholders
+      SUPABASE_URL: http://placeholder-project.supabase.co
+      SUPABASE_KEY: placeholder-key
+
+  # 3. Frontend Service (React + Vite + Nginx)
+  frontend:
+    build: ./apps/client
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
