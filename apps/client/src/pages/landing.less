@@ -1,0 +1,118 @@
+@import '../styles/variables.less';
+
+.landing {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(900px 400px at 85% -10%, rgba(232, 115, 74, 0.12), transparent),
+    radial-gradient(700px 400px at 0% 110%, rgba(31, 138, 91, 0.1), transparent),
+    @bg;
+}
+
+.landing-inner {
+  width: min(880px, 100%);
+}
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 34px;
+
+  .brand-mark {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, @brand, @brand-deep);
+    color: #fff;
+    font-size: 30px;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 10px 26px rgba(200, 85, 46, 0.35);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 26px;
+    letter-spacing: 1px;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: @ink-soft;
+    font-size: 14px;
+  }
+}
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.entry-card {
+  background: #fff;
+  border: 1px solid @line;
+  border-radius: 22px;
+  padding: 30px 26px;
+  box-shadow: 0 12px 30px rgba(92, 70, 40, 0.08);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  color: @ink;
+  display: block;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(92, 70, 40, 0.14);
+  }
+
+  .entry-icon {
+    font-size: 42px;
+  }
+
+  .entry-name {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 14px 0 8px;
+  }
+
+  .entry-desc {
+    color: @ink-soft;
+    font-size: 13.5px;
+    line-height: 1.75;
+    min-height: 48px;
+  }
+
+  .entry-cta {
+    margin-top: 18px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  &.entry-admin .entry-cta {
+    color: @brand-deep;
+  }
+  &.entry-h5 .entry-cta {
+    color: @safe;
+  }
+}
+
+.demo-tip {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 13px;
+  color: @ink-soft;
+
+  code {
+    background: #f2eadd;
+    border-radius: 6px;
+    padding: 2px 8px;
+    margin: 0 4px;
+    color: @brand-deep;
+    font-weight: 600;
+  }
+}

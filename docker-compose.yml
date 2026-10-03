@@ -29,6 +29,9 @@ services:
       # Supabase config placeholders
       SUPABASE_URL: http://placeholder-project.supabase.co
       SUPABASE_KEY: placeholder-key
+      # 单通振铃超时（毫秒），超时未接自动转拨下一位联系人
+      CALL_RING_TIMEOUT_MS: "20000"
+      CALL_NEXT_GAP_MS: "800"
 
   # 3. Frontend Service (React + Vite + Nginx)
   frontend:
