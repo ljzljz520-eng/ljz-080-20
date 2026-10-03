@@ -1,0 +1,135 @@
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: opacity 0.2s;
+}
+
+.event-card {
+  padding: 18px 22px;
+
+  .event-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .event-title-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    h3 {
+      margin: 0;
+      font-size: 17px;
+    }
+  }
+
+  .event-meta {
+    display: flex;
+    gap: 16px;
+    color: #6b7280;
+    font-size: 13px;
+  }
+
+  .event-desc {
+    margin-top: 10px;
+    color: #4b5563;
+    font-size: 13.5px;
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+}
+
+.calling-banner {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #eff6ff, #dbeafe);
+  border: 1px solid #bfdbfe;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  .calling-text {
+    font-size: 14.5px;
+    color: #1e3a8a;
+  }
+
+  .calling-hint {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #2563eb;
+  }
+
+  .call-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+}
+
+.answered-banner {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #14532d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14.5px;
+}
+
+.exhausted-banner {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #7f1d1d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.event-footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.resolution-box {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: #fafafa;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+
+  .resolution-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #6b7280;
+    margin-bottom: 4px;
+  }
+
+  .report-inline {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #d4d4d8;
+  }
+}

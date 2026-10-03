@@ -26,9 +26,11 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:password@db:5432/postgres
-      # Supabase config placeholders
-      SUPABASE_URL: http://placeholder-project.supabase.co
-      SUPABASE_KEY: placeholder-key
+      # 未配置真实 Supabase 时后端自动使用内存仓储（含演示种子数据）
+      SUPABASE_URL: ${SUPABASE_URL:-http://placeholder-project.supabase.co}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+      # 单次外呼振铃超时秒数，超时自动转接下一位联系人
+      CALL_RING_TIMEOUT_SEC: ${CALL_RING_TIMEOUT_SEC:-8}
 
   # 3. Frontend Service (React + Vite + Nginx)
   frontend:

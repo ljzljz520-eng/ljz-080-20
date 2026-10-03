@@ -1,0 +1,277 @@
+.h5-root {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #f5f7fa;
+  position: relative;
+  padding-bottom: 60px;
+
+  :global(.adm-nav-bar) {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    color: #fff;
+    font-weight: 700;
+  }
+}
+
+.h5-logout {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.h5-login {
+  padding: 56px 24px;
+
+  .h5-hero {
+    text-align: center;
+    margin-bottom: 28px;
+
+    .h5-hero-icon {
+      font-size: 56px;
+    }
+    h1 {
+      margin: 10px 0 4px;
+      font-size: 26px;
+      color: #0f2557;
+    }
+    p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+  }
+
+  .h5-login-card {
+    border-radius: 16px;
+  }
+
+  .field-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+
+  .h5-input {
+    width: 100%;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.15s;
+
+    &:focus {
+      border-color: #2563eb;
+    }
+  }
+
+  .h5-error {
+    margin-top: 10px;
+    color: #dc2626;
+    font-size: 13px;
+  }
+
+  .h5-login-tip {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+    line-height: 1.8;
+
+    code {
+      background: #f3f4f6;
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: #4b5563;
+    }
+  }
+}
+
+.h5-banner {
+  margin: 14px 12px 0;
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #fff;
+
+  .h5-banner-name {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .h5-banner-sub {
+    opacity: 0.85;
+    font-size: 13px;
+    margin: 3px 0 10px;
+  }
+}
+
+.h5-content {
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.h5-loading {
+  text-align: center;
+  color: #9ca3af;
+  padding: 40px 0;
+  font-size: 14px;
+}
+
+.h5-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11.5px;
+  color: #b0b7c3;
+  padding: 14px 0;
+}
+
+.h5-report-card {
+  border-radius: 14px;
+  --border-radius: 14px;
+
+  .rc-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .rc-title {
+      font-size: 16.5px;
+    }
+  }
+
+  .rc-sub {
+    margin-top: 8px;
+    display: flex;
+    gap: 14px;
+    color: #6b7280;
+    font-size: 12.5px;
+  }
+
+  .rc-answer-banner {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #1e40af;
+    font-size: 13.5px;
+    line-height: 1.6;
+
+    &.me-answered {
+      background: #f0fdf4;
+      color: #166534;
+      font-weight: 600;
+    }
+  }
+
+  .rc-section {
+    margin-top: 14px;
+  }
+
+  .rc-section-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+
+  .rc-attempt {
+    background: #fafafa;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+
+    .rc-attempt-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .rc-attempt-p {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .rc-attempt-meta {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .rc-attempt-remark {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #2563eb;
+    }
+  }
+
+  .rc-others {
+    background: #fcfcfd;
+    border: 1px dashed #e5e7eb;
+    border-radius: 10px;
+    padding: 12px;
+
+    .rc-others-stat {
+      display: flex;
+      gap: 8px;
+
+      .rc-others-item {
+        flex: 1;
+        text-align: center;
+        background: #fff;
+        border-radius: 8px;
+        padding: 10px 0;
+
+        b {
+          display: block;
+          font-size: 20px;
+          color: #374151;
+        }
+        span {
+          font-size: 11.5px;
+          color: #9ca3af;
+        }
+      }
+    }
+
+    .rc-others-note {
+      margin-top: 8px;
+      font-size: 11.5px;
+      color: #b0b7c3;
+      text-align: center;
+    }
+  }
+
+  .rc-summary {
+    font-size: 13.5px;
+    color: #374151;
+    line-height: 1.8;
+    margin: 0 0 12px;
+  }
+
+  .rc-resolution {
+    background: #f0f9ff;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #0c4a6e;
+    line-height: 1.7;
+
+    .rc-resolution-label {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+  }
+
+  .rc-resolved-at {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: right;
+  }
+}

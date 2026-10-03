@@ -1,98 +1,57 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 紧急联系人分级呼叫模块（后端）
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS + TypeScript。为每位老人维护「家属 / 邻里 / 社区医生 / 物业」四类紧急
+联系人及优先级，突发事件触发后系统按 P1 → Pn 自动逐级外呼，未接听自动转接
+下一位，全过程留痕；事件结案自动生成简短处置报告，家属 H5 端只能看到与本人
+相关的内容。
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+## 运行
 
 ```bash
-$ npm install
+npm install
+npm run start:dev        # http://localhost:3000
+npm test                 # 单元测试（分级引擎 + 家属脱敏）
 ```
 
-## Compile and run the project
+默认使用**内存仓储**（含演示种子数据，零外部依赖；数据随重启重置）。
+配置真实环境变量 `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` 后自动切换到
+Supabase 仓储，建表脚本见 `sql/001_emergency_schema.sql`。
 
-```bash
-# development
-$ npm run start
+## 核心机制
 
-# watch mode
-$ npm run start:dev
+1. **分级呼叫引擎**（`emergency/emergency.service.ts`）
+   - 触发事件 → 取启用中、未呼叫过、优先级最高的联系人外呼；
+   - `no_answer / rejected / failed` → 自动转接下一位，`escalation_count + 1`；
+   - `answered` → 锁定第一响应人，停止呼叫，等待管家结案；
+   - 名单全部轮询完毕 → 事件置为 `exhausted`，提示管家直接介入；
+   - 语音通道（`dialer.service.ts`）为模拟实现，生产环境替换为真实语音网关
+     SDK 或在网关回调中调用 `/events/:id/call-result`。
+2. **结果留痕**：每一次外呼写入 `call_attempts`（振铃/接通/拒接/失败、时长、备注）。
+3. **处置报告**：结案时自动生成摘要 + 分级动作清单（`reports.service.ts`）。
+4. **家属隐私视图**：`/api/family/reports` 仅返回本人呼叫明细；其他联系人只
+   返回数量统计（总人次/接通/未接），不返回姓名、电话、关系。
 
-# production mode
-$ npm run start:prod
-```
+## API
 
-## Run tests
+管理端需请求头 `x-staff-token`；家属端需 `x-family-token`（家属联系人的
+access_token，由管家在 PC 端签发/重置）。
 
-```bash
-# unit tests
-$ npm run test
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| GET | `/api/admin/elders` | 老人列表 |
+| GET/POST | `/api/admin/contacts` | 联系人列表 / 新增（家属自动签发令牌） |
+| PATCH/DELETE | `/api/admin/contacts/:id` | 编辑 / 删除 |
+| PUT | `/api/admin/contacts/reorder/:elderId` | 拖拽后整体重排优先级 |
+| POST | `/api/admin/contacts/:id/rotate-token` | 重新签发家属令牌 |
+| POST | `/api/admin/events` | 触发突发事件（body 可带 `simulate` 演示首轮结果） |
+| GET | `/api/admin/events` / `/:id` | 事件列表 / 详情（含呼叫记录、报告） |
+| POST | `/api/admin/events/:id/call-result` | 网关回调或管家代操作：answered/rejected/failed |
+| POST | `/api/admin/events/:id/resolve` | 结案并自动生成报告 |
+| GET | `/api/admin/reports` | 处置报告列表 |
+| GET | `/api/family/me` | 当前家属身份 |
+| GET | `/api/family/reports` | 家属脱敏后的处置报告视图 |
 
-# e2e tests
-$ npm run test:e2e
+## 演示账号（内存仓储种子数据）
 
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- 管家端令牌：任意非空 `x-staff-token`（前端默认 `demo-staff-token`）
+- 家属令牌：`family-demo-wangxm`（王秀兰长子王晓明）、`family-demo-lina`（李建国女儿李娜）

@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.less'
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { App as AntApp } from "antd";
+import AdminApp from "./admin/AdminApp";
+import H5App from "./h5/H5App";
+import EntryPage from "./EntryPage";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+/**
+ * 双入口：
+ * - /admin  管家 PC 管理端（antd）
+ * - /m      家属 H5 端（antd-mobile）
+ * - 其余路径进入入口引导页
+ */
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <AntApp>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<EntryPage />} />
+          <Route path="/admin/*" element={<AdminApp />} />
+          <Route path="/m" element={<H5App />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AntApp>
+  );
 }
-
-export default App

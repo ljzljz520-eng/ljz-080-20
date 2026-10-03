@@ -1,0 +1,118 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sider {
+  width: 224px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #0f2557 0%, #143a7a 100%);
+  color: #dbeafe;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 14px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 8px 22px;
+
+    .brand-logo {
+      font-size: 30px;
+    }
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: #93b4e8;
+      margin-top: 2px;
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #bfd6f5;
+    font-size: 14.5px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+
+    .nav-icon {
+      font-size: 17px;
+    }
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+    &.active {
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+  }
+
+  .sider-footer {
+    margin-top: auto;
+    .staff-hint {
+      font-size: 11px;
+      color: #7d9cc9;
+      line-height: 1.6;
+      padding: 10px;
+      code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: #bfdbfe;
+      }
+    }
+  }
+}
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+}
+
+// 通用小部件
+.elder-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  &::before {
+    content: "";
+    width: 4px;
+    height: 16px;
+    border-radius: 2px;
+    background: #1677ff;
+  }
+}
